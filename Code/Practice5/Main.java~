@@ -1,0 +1,49 @@
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
+import java.util.List;
+
+class Main {
+
+    Main() {
+    }
+
+    static boolean isPrime(int n) {
+        return n > 1 && IntStream.range(2, n).
+            noneMatch(x -> n % x == 0);
+    }
+
+    static IntStream twinPrimes(int n) {
+        return IntStream.rangeClosed(3, n).filter(x -> isPrime(x)).
+            filter(x -> isPrime(x - 2) || isPrime(x + 2));
+    }
+
+    static String reverse(String str) {
+        String finalString = "";
+        return Stream.<String>of(str.split("")).reduce(finalString,
+                (x, y) -> y + x);
+    }
+
+    static long countRepeats(List<Integer> list) {
+        int curr = list.get(0);
+        int counter = 0;
+        boolean repeat = false;
+        boolean started = false;
+
+        /*
+        list.stream().reduce(start, (x, y) -> (!started) ? y : (x.equals(y)) ? {repeat = true; return y;} 
+                : (repeat == true) ? {counter++; repeat = false; return y;} : y);
+        */
+
+        list.stream().mapToInt(x -> x).reduce(curr, (x,y) -> {
+            if (!started) {
+                started = true;
+            }
+            return y;
+        });
+
+        return counter;
+    }
+
+
+
+}
